@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { WebContainer } from '@webcontainer/api';
+import { debounce } from 'lodash';
 
-export function useWebContainer() {
+export default function useWebContainer() {
     const [webcontainer, setWebcontainer] = useState<WebContainer>();
 
-    async function main() {
-        const webcontainerInstance = await WebContainer.boot();
-        setWebcontainer(webcontainerInstance)
-    }
+    const initializeWebContainer = debounce(async () => {
+        if (!webcontainer) {
+            const webcontainerInstance = await WebContainer.boot();
+            setWebcontainer(webcontainerInstance);
+        }
+    }, 300); // Debounce to prevent frequent calls
+
     useEffect(() => {
-        main();
-    }, [])
+        initializeWebContainer();
+    }, []);
 
     return webcontainer;
 }

@@ -1,4 +1,5 @@
 import { Step, StepType } from './types';
+const cache = new Map<string, Step[]>();
 
 /*
  * Parse input XML and convert it into steps.
@@ -29,6 +30,10 @@ import { Step, StepType } from './types';
  * The input can have strings in the middle they need to be ignored
  */
 export function parseXml(response: string): Step[] {
+    if (cache.has(response)) {
+        return cache.get(response)!;
+    }
+
     // Extract the XML content between <boltArtifact> tags
     const xmlMatch = response.match(/<boltArtifact[^>]*>([\s\S]*?)<\/boltArtifact>/);
     
@@ -84,5 +89,6 @@ export function parseXml(response: string): Step[] {
       }
     }
   
+    cache.set(response, steps);
     return steps;
   }
