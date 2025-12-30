@@ -27,7 +27,7 @@ export function Home() {
           </h1>
           <p className="text-lg text-gray-300">
             Describe your dream website, and we'll help you build it step by
-            step ankit
+            step
           </p>
         </div>
 
