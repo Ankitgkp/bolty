@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Wand2 } from 'lucide-react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Wand2 } from "lucide-react";
 import axios from "axios";
-import { BACKEND_URL } from '../config';
+import { BACKEND_URL } from "../config";
 
 export function Home() {
-  const [prompt, setPrompt] = useState('');
+  const [prompt, setPrompt] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (prompt.trim()) {
-      navigate('/builder', { state: { prompt } });
+      navigate("/builder", { state: { prompt } });
     }
   };
 
@@ -23,10 +23,11 @@ export function Home() {
             <Wand2 className="w-12 h-12 text-blue-400" />
           </div>
           <h1 className="text-4xl font-bold text-gray-100 mb-4">
-            Website Builder AI
+            Website Builder AII
           </h1>
           <p className="text-lg text-gray-300">
-            Describe your dream website, and we'll help you build it step by step
+            Describe your dream website, and we'll help you build it step by
+            step
           </p>
         </div>
 
