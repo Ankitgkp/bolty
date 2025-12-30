@@ -1,5 +1,6 @@
 require("dotenv").config();
 import express from "express";
+import cors from "cors";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { BASE_PROMPT, getSystemPrompt } from "./prompts";
 import { basePrompt as nodeBasePrompt } from "./defaults/node";
@@ -13,17 +14,15 @@ if (!GEMINI_API_KEY) {
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const app = express();
+app.use(cors());
+app.use(express.json());
+
+// Add headers for Cross-Origin Isolation (required for WebContainers)
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
-  } else {
+    res.header('Cross-Origin-Embedder-Policy', 'require-corp');
+    res.header('Cross-Origin-Opener-Policy', 'same-origin');
     next();
-  }
 });
-app.use(express.json())
 
 app.get("/", (req, res) => {
     res.json({ status: "Server is running", message: "Bolt Backend API" });

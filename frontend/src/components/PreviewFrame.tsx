@@ -64,8 +64,10 @@ export function PreviewFrame({ files, webContainer }: PreviewFrameProps) {
   }
 
   useEffect(() => {
-    main();
-  }, []);
+    if (webContainer) {
+      main();
+    }
+  }, [webContainer]);
 
   return (
     <div className="h-full flex items-center justify-center text-gray-400">
