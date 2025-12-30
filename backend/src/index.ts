@@ -17,6 +17,10 @@ const app = express();
 app.use(cors())
 app.use(express.json())
 
+app.get("/", (req, res) => {
+    res.json({ status: "Server is running", message: "Bolt Backend API" });
+});
+
 app.post("/template", async (req, res) => {
     try {
         const prompt = req.body.prompt;
