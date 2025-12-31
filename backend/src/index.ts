@@ -20,7 +20,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Add headers for Cross-Origin Isolation (required for WebContainers)
 app.use((req, res, next) => {
     res.header('Cross-Origin-Embedder-Policy', 'require-corp');
     res.header('Cross-Origin-Opener-Policy', 'same-origin');
@@ -58,7 +57,7 @@ app.post("/template", async (req, res) => {
         console.log("Template classification response:", content);
         const answer = (typeof content === 'string' ? content : '').toLowerCase();
 
-        let templateType = "node"; // Default to node
+        let templateType = "node";
         if (answer.includes("react")) {
             templateType = "react";
         } else if (answer.includes("node")) {

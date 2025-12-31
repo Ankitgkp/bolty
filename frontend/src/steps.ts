@@ -1,40 +1,11 @@
 import { Step, StepType } from './types';
 const cache = new Map<string, Step[]>();
 
-/*
- * Parse input XML and convert it into steps.
- * Eg: Input - 
- * <boltArtifact id=\"project-import\" title=\"Project Files\">
- *  <boltAction type=\"file\" filePath=\"eslint.config.js\">
- *      import js from '@eslint/js';\nimport globals from 'globals';\n
- *  </boltAction>
- * <boltAction type="shell">
- *      node index.js
- * </boltAction>
- * </boltArtifact>
- * 
- * Output - 
- * [{
- *      title: "Project Files",
- *      status: "Pending"
- * }, {
- *      title: "Create eslint.config.js",
- *      type: StepType.CreateFile,
- *      code: "import js from '@eslint/js';\nimport globals from 'globals';\n"
- * }, {
- *      title: "Run command",
- *      code: "node index.js",
- *      type: StepType.RunScript
- * }]
- * 
- * The input can have strings in the middle they need to be ignored
- */
 export function parseXml(response: string): Step[] {
   if (cache.has(response)) {
     return cache.get(response)!;
   }
 
-  // Extract the XML content between <boltArtifact> tags (or until end of string for streaming)
   const xmlMatch = response.match(/<boltArtifact[^>]*>([\s\S]*?)(?:<\/boltArtifact>|$)/);
 
   if (!xmlMatch) {
@@ -45,11 +16,9 @@ export function parseXml(response: string): Step[] {
   const steps: Step[] = [];
   let stepId = 1;
 
-  // Extract artifact title
   const titleMatch = response.match(/title="([^"]*)"/);
   const artifactTitle = titleMatch ? titleMatch[1] : 'Project Files';
 
-  // Add initial artifact step
   steps.push({
     id: stepId++,
     title: artifactTitle,
@@ -57,8 +26,6 @@ export function parseXml(response: string): Step[] {
     type: StepType.CreateFolder,
     status: 'pending'
   });
-
-  // Regular expression to find boltAction elements (allowing unclosed tags for streaming)
   const actionRegex = /<boltAction\s+type=['"]([^'"]*)['"](?:\s+filePath=['"]([^'"]*)['"])?>([\s\S]*?)(?:<\/boltAction>|$)/g;
 
   let match;
@@ -66,7 +33,6 @@ export function parseXml(response: string): Step[] {
     const [, type, filePath, content] = match;
 
     if (type === 'file') {
-      // File creation step
       steps.push({
         id: stepId++,
         title: `Create ${filePath || 'file'}`,
@@ -77,7 +43,6 @@ export function parseXml(response: string): Step[] {
         path: filePath
       });
     } else if (type === 'shell') {
-      // Shell command step
       steps.push({
         id: stepId++,
         title: 'Run command',
@@ -88,7 +53,6 @@ export function parseXml(response: string): Step[] {
       });
     }
 
-    // If we matched until the end of the string (unclosed tag), break to avoid partial matches later
     if (!match[0].endsWith('</boltAction>')) {
       break;
     }
