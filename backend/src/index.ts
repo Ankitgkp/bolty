@@ -1,10 +1,10 @@
-require("dotenv").config();
+import 'dotenv/config';
 import express from "express";
 import cors from "cors";
 import { OpenRouter } from "@openrouter/sdk";
-import { BASE_PROMPT, getSystemPrompt } from "./prompts";
-import { basePrompt as nodeBasePrompt } from "./defaults/node";
-import { basePrompt as reactBasePrompt } from "./defaults/react";
+import { BASE_PROMPT, getSystemPrompt } from "./prompts.js";
+import { basePrompt as nodeBasePrompt } from "./defaults/node.js";
+import { basePrompt as reactBasePrompt } from "./defaults/react.js";
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
