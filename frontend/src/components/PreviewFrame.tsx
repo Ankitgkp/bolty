@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 interface PreviewFrameProps {
   files: any[];
-  webContainer: WebContainer;
+  webContainer?: WebContainer;
 }
 
 // Helper function to strip ANSI escape codes
@@ -18,7 +18,7 @@ export function PreviewFrame({ files, webContainer }: PreviewFrameProps) {
   async function main() {
     try {
       console.log('Installing dependencies...');
-      const installProcess = await webContainer.spawn('npm', ['install']);
+      const installProcess = await webContainer!.spawn('npm', ['install']);
 
       installProcess.output.pipeTo(new WritableStream({
         write(data) {
@@ -39,7 +39,7 @@ export function PreviewFrame({ files, webContainer }: PreviewFrameProps) {
       }
 
       console.log('Starting dev server...');
-      const devProcess = await webContainer.spawn('npm', ['run', 'dev']);
+      const devProcess = await webContainer!.spawn('npm', ['run', 'dev']);
 
       devProcess.output.pipeTo(new WritableStream({
         write(data) {
@@ -51,7 +51,7 @@ export function PreviewFrame({ files, webContainer }: PreviewFrameProps) {
       }));
 
       // Wait for `server-ready` event
-      webContainer.on('server-ready', (port, url) => {
+      webContainer!.on('server-ready', (port, url) => {
         console.log('Server ready on port:', port);
         console.log('Server URL:', url);
         setUrl(url);
