@@ -1,1 +1,1 @@
-export const BACKEND_URL = "https://bolty-kpsr-p1tcnbfsg-ankitgkps-projects.vercel.app/"
+export const BACKEND_URL = "https://bolty-kpsr-p1tcnbfsg-ankitgkps-projects.vercel.app"
