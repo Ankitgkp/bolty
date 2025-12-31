@@ -1,1 +1,1 @@
-export const BACKEND_URL = "https://bolty-backend.vercel.app/"
+export const BACKEND_URL = "https://bolty-backend.vercel.app"
