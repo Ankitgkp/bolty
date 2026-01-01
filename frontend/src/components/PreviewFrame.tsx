@@ -1,5 +1,5 @@
 import { WebContainer } from '@webcontainer/api';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Loader2 } from 'lucide-react';
 
 interface PreviewFrameProps {
@@ -7,58 +7,134 @@ interface PreviewFrameProps {
   webContainer?: WebContainer;
 }
 
-interface ServerReadyEvent {
-  port: number;
-  url: string;
+// Simple hash function for comparing package.json content
+function simpleHash(str: string): string {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return hash.toString(36);
+}
+
+// Find a file by name in the file tree
+function findFileByName(files: any[], name: string): any | null {
+  for (const file of files) {
+    if (file.name === name && file.type === 'file') {
+      return file;
+    }
+    if (file.children) {
+      const found = findFileByName(file.children, name);
+      if (found) return found;
+    }
+  }
+  return null;
 }
 
 export function PreviewFrame({ files, webContainer }: PreviewFrameProps) {
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [status, setStatus] = useState("Initializing...");
+
+  // Persistent refs to track state across file changes
+  const installedPackageHashRef = useRef<string | null>(null);
+  const devServerRunningRef = useRef(false);
+  const serverReadyListenerAddedRef = useRef(false);
+  const initializingRef = useRef(false);
+
+  const getPackageJsonHash = useCallback((files: any[]): string | null => {
+    const pkgFile = findFileByName(files, 'package.json');
+    return pkgFile?.content ? simpleHash(pkgFile.content) : null;
+  }, []);
 
   async function main() {
+    // Prevent multiple simultaneous initializations
+    if (initializingRef.current) {
+      console.log('[Preview] Already initializing, skipping...');
+      return;
+    }
+
     try {
-      console.log('Installing dependencies...');
-      const installProcess = await webContainer!.spawn('npm', ['install']);
+      initializingRef.current = true;
 
-      installProcess.output.pipeTo(new WritableStream({
-        write(data) {
-          console.log(data);
+      const currentPackageHash = getPackageJsonHash(files);
+      const needsInstall = currentPackageHash !== installedPackageHashRef.current;
+
+      console.log('[Preview] Package hash:', currentPackageHash);
+      console.log('[Preview] Previous hash:', installedPackageHashRef.current);
+      console.log('[Preview] Needs install:', needsInstall);
+
+      if (needsInstall) {
+        setStatus("Installing dependencies...");
+        console.log('[Preview] Installing dependencies...');
+        const installProcess = await webContainer!.spawn('npm', ['install']);
+
+        installProcess.output.pipeTo(new WritableStream({
+          write(data) {
+            console.log(data);
+          }
+        }));
+
+        const installExitCode = await installProcess.exit;
+
+        if (installExitCode !== 0) {
+          console.error('[Preview] Installation failed with exit code:', installExitCode);
+          setStatus("Installation failed");
+          setIsLoading(false);
+          initializingRef.current = false;
+          return;
         }
-      }));
 
-      // Wait for installation to complete
-      const installExitCode = await installProcess.exit;
-
-      if (installExitCode !== 0) {
-        console.error('Installation failed with exit code:', installExitCode);
-        setIsLoading(false);
-        return;
+        console.log('[Preview] Dependencies installed successfully');
+        installedPackageHashRef.current = currentPackageHash;
+      } else {
+        console.log('[Preview] Skipping npm install - dependencies unchanged');
+        setStatus("Dependencies up to date");
       }
 
-      console.log('Starting dev server...');
-      const devProcess = await webContainer!.spawn('npm', ['run', 'dev']);
+      // Set up server-ready listener only once
+      if (!serverReadyListenerAddedRef.current) {
+        webContainer!.on('server-ready', (port, serverUrl) => {
+          console.log('[Preview] Server ready on port:', port);
+          console.log('[Preview] Server URL:', serverUrl);
+          setUrl(serverUrl);
+          setIsLoading(false);
+          setStatus("Ready");
+          devServerRunningRef.current = true;
+        });
+        serverReadyListenerAddedRef.current = true;
+      }
 
-      devProcess.output.pipeTo(new WritableStream({
-        write(data) {
-          console.log(data);
-        }
-      }));
+      // Only start dev server if not already running
+      if (!devServerRunningRef.current) {
+        setStatus("Starting dev server...");
+        console.log('[Preview] Starting dev server...');
+        const devProcess = await webContainer!.spawn('npm', ['run', 'dev']);
 
-      webContainer!.on('server-ready', (port, url) => {
-        console.log('Server ready on port:', port);
-        console.log('Server URL:', url);
-        setUrl(url);
+        devProcess.output.pipeTo(new WritableStream({
+          write(data) {
+            console.log(data);
+          }
+        }));
+
+        // Note: devServerRunningRef will be set to true when server-ready fires
+      } else {
+        console.log('[Preview] Dev server already running - HMR will handle updates');
         setIsLoading(false);
-      });
+        setStatus("Ready (HMR active)");
+      }
     } catch (error) {
-      console.error('Error setting up preview:', error);
+      console.error('[Preview] Error setting up preview:', error);
+      setStatus("Error occurred");
       setIsLoading(false);
+    } finally {
+      initializingRef.current = false;
     }
   }
 
   useEffect(() => {
-    if (webContainer) {
+    if (webContainer && files.length > 0) {
       main();
     }
   }, [webContainer]);
@@ -78,7 +154,7 @@ export function PreviewFrame({ files, webContainer }: PreviewFrameProps) {
                 Initializing Preview
               </h3>
               <p className="text-sm text-gray-400">
-                Setting up development environment...
+                {status}
               </p>
             </div>
 
