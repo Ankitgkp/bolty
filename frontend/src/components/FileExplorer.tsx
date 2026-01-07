@@ -1,3 +1,7 @@
+/**
+ * File tree explorer for navigating project files.
+ */
+
 import { useState } from 'react';
 import { FolderTree, File, ChevronRight, ChevronDown } from 'lucide-react';
 import { FileItem } from '../types';

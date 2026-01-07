@@ -1,3 +1,7 @@
+/**
+ * Monaco code editor wrapper with language detection.
+ */
+
 import Editor from '@monaco-editor/react';
 import { FileItem } from '../types';
 import { ChevronRight } from 'lucide-react';

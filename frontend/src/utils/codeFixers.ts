@@ -1,4 +1,4 @@
-// Utility functions to fix common AI-generated code issues
+// (Parsing logic for RAW generated code coming straight from the AI)
 
 // Removes all comments from code to prevent JSX parsing issues
 export function removeComments(code: string): string {

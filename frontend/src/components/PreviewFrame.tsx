@@ -1,3 +1,7 @@
+/**
+ * WebContainer preview frame for live app preview.
+ */
+
 import { WebContainer } from '@webcontainer/api';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { Loader2 } from 'lucide-react';

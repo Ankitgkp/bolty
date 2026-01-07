@@ -1,3 +1,7 @@
+/**
+ * Tab switcher for code/preview views.
+ */
+
 import { Code2, Eye } from 'lucide-react';
 
 interface TabViewProps {

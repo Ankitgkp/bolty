@@ -1,3 +1,5 @@
+// Types for the project management and file system
+
 export enum StepType {
   CreateFile,
   CreateFolder,

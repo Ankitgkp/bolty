@@ -1,1 +1,2 @@
-export const BACKEND_URL = "https://bolty-backend.vercel.app";
+// Backend URL configuration (TODO: add this in .env file)
+export const BACKEND_URL = "https://bolty-backend.vercel.app";  
