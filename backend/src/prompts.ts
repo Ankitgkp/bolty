@@ -1,3 +1,5 @@
+// chat prompt templates and system prompts for AI interactions from bolt.new github
+
 import { MODIFICATIONS_TAG_NAME, WORK_DIR, allowedHTMLElements } from './constants.js';
 import { stripIndents } from "./stripindents.js";
 

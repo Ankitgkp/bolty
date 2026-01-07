@@ -1,3 +1,5 @@
+// Core parsing logic for extracting steps from XML(not fully XML that's why using codeFixers.ts) for responses
+
 import { Step, StepType } from './types';
 import { fixGeneratedCode } from './utils/codeFixers';
 

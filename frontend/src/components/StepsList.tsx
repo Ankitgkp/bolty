@@ -1,3 +1,7 @@
+/**
+ * Build steps list showing progress of file generation.
+ */
+
 import { CheckCircle, Circle, FileText, Terminal, Loader2 } from 'lucide-react';
 import { Step, StepType } from '../types';
 
