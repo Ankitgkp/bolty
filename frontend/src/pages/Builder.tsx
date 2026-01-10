@@ -50,6 +50,20 @@ export function Builder() {
         }
     }, [prompt, navigate]);
 
+    // Auto-switch to code tab when generation starts
+    useEffect(() => {
+        if (isGenerating && activeTab === 'preview') {
+            setActiveTab('code');
+        }
+    }, [isGenerating, activeTab]);
+
+    // Auto-switch to preview tab when code generation completes
+    useEffect(() => {
+        if (allStepsCompleted && !isGenerating && activeTab === 'code') {
+            setActiveTab('preview');
+        }
+    }, [allStepsCompleted, isGenerating, activeTab]);
+
     async function handleChatSubmit() {
         await sendMessage(userPrompt);
         setUserPrompt("");
@@ -92,7 +106,7 @@ export function Builder() {
                                 onFileSelect={setSelectedFile}
                             />
                         ) : (
-                            <PreviewPanel webContainer={webcontainer} files={files} />
+                            <PreviewPanel webContainer={webcontainer} files={files} isGenerating={isGenerating} />
                         )}
                     </MainPanel>
                 </div>

@@ -11,6 +11,13 @@ interface TabViewProps {
 }
 
 export function TabView({ activeTab, onTabChange, disabled = false }: TabViewProps) {
+  
+  const handlePreviewClick = () => {
+    if (!disabled) {
+      onTabChange('preview');
+    }
+  };
+
   return (
     <div className="flex items-center bg-[#1a1a1a] rounded-lg p-1 gap-1">
       <button
@@ -24,11 +31,11 @@ export function TabView({ activeTab, onTabChange, disabled = false }: TabViewPro
         Code
       </button>
       <button
-        onClick={() => !disabled && onTabChange('preview')}
+        onClick={handlePreviewClick}
         disabled={disabled}
         className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-colors rounded-md ${
           disabled 
-            ? 'text-gray-600 cursor-not-allowed opacity-50' 
+            ? 'text-gray-600 cursor-not-allowed opacity-50 bg-gray-900' 
             : activeTab === 'preview'
             ? 'bg-white text-black'
             : 'text-gray-400 hover:text-white hover:bg-gray-800'
