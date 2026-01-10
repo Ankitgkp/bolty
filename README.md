@@ -7,10 +7,9 @@
 [Demo](#demo) • [Features](#features) • [Installation](#installation) • [Usage](#usage)
 
 ---
+<img width="1512" height="743" alt="Screenshot 2026-01-11 at 3 14 40 AM" src="https://github.com/user-attachments/assets/52fe98ee-2f8b-4351-ab54-3667ad8d7d20" />
 
-<img width="1512" height="743" alt="Screenshot 2026-01-11 at 1 10 01 AM" src="https://github.com/user-attachments/assets/4c0db61e-617c-42ab-b2d2-68487807cef0" />
-
-<img width="1512" height="743" alt="Screenshot 2026-01-11 at 1 14 22 AM" src="https://github.com/user-attachments/assets/bc43983c-69a8-43ba-afab-06e795255c92" />
+<img width="1512" height="743" alt="Screenshot 2026-01-11 at 1 11 14 AM" src="https://github.com/user-attachments/assets/e7050217-c5ad-45e1-a1de-e6551ae8363d" />
 
 ---
 
@@ -29,7 +28,8 @@ Bolt.newer is an intelligent web application builder that transforms your natura
 - **GitHub Integration** - Import and export projects seamlessly
 - **Responsive Design** - Works beautifully on all devices
 
-<img width="1512" height="743" alt="Screenshot 2026-01-11 at 1 11 14 AM" src="https://github.com/user-attachments/assets/de3dd652-5ff6-465b-9ca8-bbee37533627" />
+
+<img width="1512" height="743" alt="Screenshot 2026-01-11 at 1 18 40 AM" src="https://github.com/user-attachments/assets/5b7e02b8-2b14-4c2e-bc53-bf43eb7b9563" />
 
 ---
 
