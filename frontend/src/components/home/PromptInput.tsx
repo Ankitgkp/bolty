@@ -27,6 +27,7 @@ export function PromptInput({ value, onChange, onSubmit }: PromptInputProps) {
         <div className="px-4 pb-4 flex items-center justify-between border-gray-800 pt-3">
           <div className="flex items-center gap-3">
             <ModelSelector selectedModel="Devstral 4.5" />
+            <span className="text-xs text-gray-500">Free forever</span>
           </div>
           <button
             type="submit"

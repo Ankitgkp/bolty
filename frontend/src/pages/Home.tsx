@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/layout";
 import { PromptInput, GitHubImport } from "../components/home";
+import { BackgroundLines } from "../components/ui/background-lines";
 import { Sparkles, Users, Wand2 } from "lucide-react";
 
 export function Home() {
@@ -19,16 +20,19 @@ export function Home() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans relative overflow-hidden bg-noise">
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900/50 via-black to-black" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-gradient-radial from-gray-800/30 via-transparent to-transparent rounded-full blur-3xl" />
+      <BackgroundLines className="absolute inset-0 z-0" svgOptions={{ duration: 8 }}>
+      <div className="absolute inset-0" />
+      </BackgroundLines>
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-black to-black pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/4 w-[800px] h-[600px] bg-gradient-radial from-gray-800/5 via-transparent to-transparent rounded-full blur-3xl pointer-events-none" />
       
       <Navbar />
       
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center p-4">
         <div className="max-w-3xl w-full flex flex-col items-center text-center space-y-6">
-          <h1 className="text-4xl md:text-5xl font-semibold text-white italic font-display opacity-85">
+            <h1 className="text-4xl md:text-5xl font-bold opacity-85 italic text-white tracking-tight">
             What you want to build?
-          </h1>
+            </h1>
           
           <p className="text-gray-400 text-m">
             Type your prompt below and press the button to start the journey.
