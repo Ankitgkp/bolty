@@ -9,6 +9,8 @@
 ---
 <img width="1512" height="743" alt="Screenshot 2026-01-11 at 3 14 40 AM" src="https://github.com/user-attachments/assets/52fe98ee-2f8b-4351-ab54-3667ad8d7d20" />
 
+---
+
 <img width="1512" height="743" alt="Screenshot 2026-01-11 at 1 11 14 AM" src="https://github.com/user-attachments/assets/e7050217-c5ad-45e1-a1de-e6551ae8363d" />
 
 ---
@@ -45,10 +47,10 @@ Bolt.newer is an intelligent web application builder that transforms your natura
 
 ```bash
 # Clone the repository
-git clone https://github.com/Ankitgkp/bolt.newer.git
+git clone https://github.com/Ankitgkp/1forge.git
 
 # Navigate to project directory
-cd bolt.newer
+cd 1forge
 
 # Install dependencies
 npm install
