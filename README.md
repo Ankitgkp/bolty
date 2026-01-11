@@ -52,10 +52,15 @@ git clone https://github.com/Ankitgkp/1forge.git
 # Navigate to project directory
 cd 1forge
 
-# Install dependencies
+# Install dependencies & Start development server
+cd backend
 npm install
+npm run dev
 
-# Start development server
+# New Terminal Session
+
+cd frontend
+npm install
 npm run dev
 ```
 
@@ -69,7 +74,6 @@ npm run dev
 ## 🛠️ Built With
 
 - **Frontend**: React, TypeScript, Tailwind CSS
-- **AI Integration**: Claude Sonnet 4.5
 - **Runtime**: WebContainer API
 - **Build Tool**: Vite
 
