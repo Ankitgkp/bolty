@@ -10,9 +10,10 @@ interface UseBuilderInitProps {
     prompt: string;
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>;
     initializeChat: (prompts: string[], userPrompt: string) => Promise<void>;
+    model?: string;
 }
 
-export function useBuilderInit({ prompt, setSteps, initializeChat }: UseBuilderInitProps) {
+export function useBuilderInit({ prompt, setSteps, initializeChat, model }: UseBuilderInitProps) {
     const [templateSet, setTemplateSet] = useState(false);
 
     useEffect(() => {
@@ -20,6 +21,7 @@ export function useBuilderInit({ prompt, setSteps, initializeChat }: UseBuilderI
             try {
                 const templateResponse = await axios.post(`${BACKEND_URL}/template`, {
                     prompt: prompt.trim(),
+                    model
                 });
                 setTemplateSet(true);
 

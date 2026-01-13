@@ -33,7 +33,7 @@ router.post("/", async (req: Request, res: Response) => {
         }
 
         const stream = await openrouter.chat.send({
-            model: config.aiModel,
+            model: req.body.model || config.aiModel,
             messages: [
                 { role: "system", content: getSystemPrompt() },
                 ...formatMessages(messages)

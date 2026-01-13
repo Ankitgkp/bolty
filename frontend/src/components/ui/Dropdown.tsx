@@ -2,7 +2,7 @@
  * Dropdown menu component with toggle functionality.
  */
 
-import { ReactNode, useState, useRef, useEffect } from 'react';
+import { ReactNode, useState, useRef, useEffect, ButtonHTMLAttributes } from 'react';
 
 interface DropdownProps {
     trigger: ReactNode;
@@ -39,7 +39,7 @@ export function Dropdown({ trigger, children, className = '' }: DropdownProps) {
             </div>
             {isOpen && (
                 <div className="absolute top-full left-0 mt-2 w-48 bg-[#2a2a2a] border border-gray-600 rounded-lg shadow-xl">
-                    <div className="p-1">
+                    <div className="p-1" onClick={() => setIsOpen(false)}>
                         {children}
                     </div>
                 </div>
@@ -48,13 +48,20 @@ export function Dropdown({ trigger, children, className = '' }: DropdownProps) {
     );
 }
 
-export function DropdownItem({ children, disabled, onClick, badge }: DropdownItemProps) {
+// ... imports
+
+interface DropdownItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+    children: ReactNode;
+    badge?: string;
+    // className is already included in ButtonHTMLAttributes, but explicit definition is fine too if we want to override documentation
+}
+
+export function DropdownItem({ children, badge, className = '', ...props }: DropdownItemProps) {
     return (
         <button
             type="button"
-            onClick={onClick}
-            disabled={disabled}
-            className={`w-full flex items-center justify-between px-3 py-2 text-sm text-left text-gray-200 hover:bg-gray-700 rounded-md transition-colors ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`w-full flex items-center justify-between px-3 py-2 text-sm text-left text-gray-200 hover:bg-gray-700 rounded-md transition-colors ${props.disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+            {...props}
         >
             <span>{children}</span>
             {badge && (

@@ -8,9 +8,11 @@ interface PromptInputProps {
   value: string;
   onChange: (value: string) => void;
   onSubmit: (e: FormEvent) => void;
+  model: string;
+  onModelChange: (model: string) => void;
 }
 
-export function PromptInput({ value, onChange, onSubmit }: PromptInputProps) {
+export function PromptInput({ value, onChange, onSubmit, model, onModelChange }: PromptInputProps) {
   return (
     <div className="w-full bg-[#1a1a1a] rounded-xl border border-gray-800 hover:border-gray-700 transition-colors shadow-xl">
       <form onSubmit={onSubmit}>
@@ -26,7 +28,7 @@ export function PromptInput({ value, onChange, onSubmit }: PromptInputProps) {
 
         <div className="px-4 pb-4 flex items-center justify-between border-gray-800 pt-3">
           <div className="flex items-center gap-3">
-            <ModelSelector selectedModel="Devstral 4.5" />
+            <ModelSelector model={model} setModel={onModelChange} />
             <span className="text-xs text-gray-500">Free forever</span>
           </div>
           <button

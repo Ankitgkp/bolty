@@ -26,7 +26,7 @@ import {
 export function Builder() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { prompt } = location.state as { prompt: string };
+    const { prompt, model } = location.state as { prompt: string; model: string };
     
     const [userPrompt, setUserPrompt] = useState("");
     const [currentStep, setCurrentStep] = useState(1);
@@ -36,8 +36,8 @@ export function Builder() {
 
     const webcontainer = useWebContainer();
     const { files, selectedFile, setSelectedFile } = useFileManager(steps, setSteps);
-    const { loading, sendMessage, initializeChat } = useLLMChat(setSteps);
-    const { templateSet } = useBuilderInit({ prompt, setSteps, initializeChat });
+    const { loading, sendMessage, initializeChat } = useLLMChat(setSteps, model);
+    const { templateSet } = useBuilderInit({ prompt, setSteps, initializeChat, model });
 
     useWebContainerMount(files, webcontainer);
 

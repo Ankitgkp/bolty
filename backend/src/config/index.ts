@@ -4,7 +4,7 @@ import 'dotenv/config';
 export const config = {
     port: process.env.PORT || 3000,
     openRouterApiKey: process.env.OPENROUTER_API_KEY,
-    aiModel: "mistralai/devstral-2512:free",
+    aiModel: process.env.AI_MODEL || "xiaomi/mimo-v2-flash:free",
     jwtSecret: process.env.JWT_SECRET || "ankit123"
 };
 

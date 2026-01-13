@@ -9,17 +9,18 @@ import { Sparkles, Users, Wand2 } from "lucide-react";
 
 export function Home() {
   const [prompt, setPrompt] = useState("");
+  const [model, setModel] = useState("xiaomi/mimo-v2-flash:free");
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (prompt.trim()) {
-      navigate("/builder", { state: { prompt } });
+      navigate("/builder", { state: { prompt, model } });
     }
   };
 
   const handleFeatureClick = (featurePrompt: string) => {
-    navigate("/builder", { state: { prompt: featurePrompt } });
+    navigate("/builder", { state: { prompt: featurePrompt, model } });
   };
 
   return (
@@ -50,6 +51,8 @@ export function Home() {
               value={prompt}
               onChange={setPrompt}
               onSubmit={handleSubmit}
+              model={model}
+              onModelChange={setModel}
             />
           </div>
 
@@ -95,8 +98,7 @@ export function Home() {
             <a
               href="https://github.com/Ankitgkp"
               target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-500/50 text-blue-400 text-xs font-medium rounded-full hover:border-blue-400 hover:bg-blue-500/10 transition-all duration-200"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-white-400 text-xs font-medium rounded-full hover:border-white-400 hover:bg-white-500/10 transition-all duration-200"
             >
               <svg
                 className="w-3.5 h-3.5"
@@ -128,15 +130,15 @@ interface FeatureCardProps {
 function FeatureCard({ icon, title, description, onClick }: FeatureCardProps) {
   return (
     <div
-      className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-4 text-left hover:border-blue-500/50 hover:bg-[#1f1f1f] transition-all cursor-pointer group"
+      className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-4 text-left hover:border-white-500/50 hover:bg-[#1f1f1f] transition-all cursor-pointer group"
       onClick={onClick}
     >
-      <div className="inline-flex items-center gap-2 bg-[#2a2a2a] group-hover:bg-blue-500/20 text-gray-300 group-hover:text-blue-400 text-sm px-3 py-1.5 rounded-full mb-3 transition-colors">
+      <div className="inline-flex items-center gap-2 bg-[#2a2a2a] group-hover:bg-white-500/20 text-gray-300 group-hover:text-white-400 text-sm px-3 py-1.5 rounded-full mb-3 transition-colors">
         {icon}
         <span>{title}</span>
       </div>
       <p className="text-gray-400 text-sm leading-relaxed">{description}</p>
-      <div className="mt-3 flex items-center gap-1 text-xs text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="mt-3 flex items-center gap-1 text-xs text-white-400 opacity-0 group-hover:opacity-100 transition-opacity">
         <span>Try this example</span>
         <span>→</span>
       </div>

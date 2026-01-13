@@ -40,7 +40,7 @@ router.post("/", async (req: Request, res: Response) => {
         }
 
         const response = await openrouter.chat.send({
-            model: config.aiModel,
+            model: req.body.model || config.aiModel,
             messages: [
                 { role: "system", content: CLASSIFIER_PROMPT },
                 { role: "user", content: prompt }

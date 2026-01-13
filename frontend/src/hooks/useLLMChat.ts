@@ -11,7 +11,7 @@ interface ChatMessage {
     content: string;
 }
 
-export function useLLMChat(setSteps: React.Dispatch<React.SetStateAction<Step[]>>) {
+export function useLLMChat(setSteps: React.Dispatch<React.SetStateAction<Step[]>>, model?: string) {
     const [llmMessages, setLlmMessages] = useState<ChatMessage[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,7 @@ export function useLLMChat(setSteps: React.Dispatch<React.SetStateAction<Step[]>
         const response = await fetch(`${BACKEND_URL}/chat`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ messages }),
+            body: JSON.stringify({ messages, model }),
         });
 
         if (!response.body) throw new Error("No response body");
