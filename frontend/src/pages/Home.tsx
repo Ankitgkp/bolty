@@ -9,7 +9,7 @@ import { Sparkles, Users, Wand2 } from "lucide-react";
 
 export function Home() {
   const [prompt, setPrompt] = useState("");
-  const [model, setModel] = useState("MiMo-V2");
+  const [model, setModel] = useState("xiaomi/mimo-v2-flash:free");
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
