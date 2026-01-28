@@ -17,8 +17,7 @@ export function ModelSelector({ model, setModel }: ModelSelectorProps) {
     }, []);
     
     const models = [
-        { id: 'xiaomi/mimo-v2-flash:free', name: 'MiMo-V2' },
-        { id: 'mistralai/devstral-2512:free', name: 'Mistral Devstral' },
+        { id: 'arcee-ai/trinity-large-preview:free', name: 'Trinity' },
     ];
 
     const selectedModelName = models.find(m => m.id === model)?.name || model;

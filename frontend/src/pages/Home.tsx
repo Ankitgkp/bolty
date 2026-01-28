@@ -1,26 +1,38 @@
 // landig page with prompt input for project generation
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/layout";
 import { PromptInput, GitHubImport } from "../components/home";
 import { BackgroundLines } from "../components/ui/background-lines";
 import { Sparkles, Users, Wand2 } from "lucide-react";
+import { BACKEND_URL } from "../config";
 
 export function Home() {
   const [prompt, setPrompt] = useState("");
-  const [model, setModel] = useState("mistralai/devstral-2512:free");
+  const [model, setModel] = useState("");
+  const [aiName, setAiName] = useState("AI");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/settings`)
+      .then(res => res.json())
+      .then(data => {
+        setModel(data.model);
+        setAiName(data.aiName);
+      })
+      .catch(err => console.error("Failed to fetch AI settings:", err));
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (prompt.trim()) {
-      navigate("/builder", { state: { prompt, model } });
+      navigate("/builder", { state: { prompt, model, aiName } });
     }
   };
 
   const handleFeatureClick = (featurePrompt: string) => {
-    navigate("/builder", { state: { prompt: featurePrompt, model } });
+    navigate("/builder", { state: { prompt: featurePrompt, model, aiName } });
   };
 
   return (

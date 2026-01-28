@@ -6,9 +6,10 @@ interface ChatInputProps {
     onChange: (value: string) => void;
     onSubmit: () => void;
     disabled: boolean;
+    aiName?: string;
 }
 
-export function ChatInput({ value, onChange, onSubmit, disabled }: ChatInputProps) {
+export function ChatInput({ value, onChange, onSubmit, disabled, aiName }: ChatInputProps) {
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -25,7 +26,7 @@ export function ChatInput({ value, onChange, onSubmit, disabled }: ChatInputProp
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Ask AI to help you..."
+                    placeholder={`Ask ${aiName || 'AI'} to help you...`}
                     className="w-full bg-transparent text-gray-200 placeholder-gray-500 text-sm p-3 pb-2 outline-none resize-none min-h-[60px]"
                     rows={2}
                 />

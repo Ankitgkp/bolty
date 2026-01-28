@@ -12,7 +12,7 @@ function getWebContainer(): Promise<WebContainer> {
     return webcontainerPromise;
 }
 
-getWebContainer();
+// getWebContainer();
 
 export default function useWebContainer() {
     const [webcontainer, setWebcontainer] = useState<WebContainer>();

@@ -26,7 +26,7 @@ import {
 export function Builder() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { prompt, model } = location.state as { prompt: string; model: string };
+    const { prompt, model, aiName } = location.state as { prompt: string; model: string; aiName?: string };
     
     const [userPrompt, setUserPrompt] = useState("");
     const [currentStep, setCurrentStep] = useState(1);
@@ -94,6 +94,7 @@ export function Builder() {
                             onChange={setUserPrompt}
                             disabled={loading}
                             onSubmit={handleChatSubmit}
+                            aiName={aiName}
                         />
                     </SidebarPanel>
 
